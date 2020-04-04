@@ -1,0 +1,34 @@
+//
+//  CustomTabBarController.swift
+//  Ito
+//
+//  Created by 二宮啓 on 2020/04/03.
+//  Copyright © 2020 二宮啓. All rights reserved.
+//
+
+import UIKit
+
+class CustomTabBarController: UITabBarController, UITabBarControllerDelegate  {
+
+    var addViewController: AddViewController!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.delegate = self
+        
+        addViewController = AddViewController()
+        
+        addViewController.tabBarItem.image = UIImage(named: "action")
+        addViewController.tabBarItem.selectedImage = UIImage(named: "action-selected")
+    }
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+      if viewController.isKind(of: AddViewController.self) {
+         let vc =  AddViewController()
+         vc.modalPresentationStyle = .overFullScreen
+         self.present(vc, animated: true, completion: nil)
+         return false
+      }
+      return true
+    }
+}
