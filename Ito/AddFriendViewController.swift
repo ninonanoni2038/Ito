@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RealmSwift
+import UserNotifications
 
 class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource ,UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -22,12 +24,16 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
     //画像とテキストを包含したView
     @IBOutlet var userImageBoxView:UIView!
     
-    //会う頻度を定義するためのPicker
+    //会う頻度を定義するためのPickerなど
     var frequencyPickerView = UIPickerView()
     let frequencyDataList = ["1週間に一度","2週間に一度","3週間に一度","1ヶ月に一度","2ヶ月に一度"]
+    var frequencyIndex:Int = 0
+    var nextDay :Int = 0
+    var passedDay :Int = 0 //通知で何日たったかを表示するための変数
     
     //UIDatePickerを定義するための変数
     var datePicker: UIDatePicker = UIDatePicker()
+    var lastDate: Date!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +55,109 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         
     }
     
+    
+    func createNotification(userName:String!,frequecyIndex: Int, lastDate:Date){
+        
+        switch frequencyIndex {
+        case 0:
+            passedDay = 7
+        case 1:
+            passedDay = 14
+        case 2:
+            passedDay = 21
+        case 3:
+            passedDay = 30
+        case 4:
+            passedDay = 60
+        default:
+            passedDay = 0
+        }
+        
+        //今日を定義
+        let now = Date()
+        
+        //最後に会った日が今日じゃなかった時の調整
+        print(calcDateRemainder(firstDate: now, secondDate: lastDate))
+        nextDay = passedDay - calcDateRemainder(firstDate: now, secondDate: lastDate)
+        print(nextDay)
+        
+        // 通知許可ダイアログを表示
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            // エラー処理
+        }
+        // 通知内容の設定
+        let content = UNMutableNotificationContent()
+
+        content.title = NSString.localizedUserNotificationString(forKey: "そろそろ約束の頃合い…？", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "\(String(userName))とこの間遊んでから\(String(passedDay))日経ったよ", arguments: nil)
+        content.sound = UNNotificationSound.default
+
+        //let nextDayTimeInterval = nextDay * 86400
+        let nextDayTimeInterval = nextDay * 1
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
+
+        let request = UNNotificationRequest(identifier: " Identifier", content: content, trigger: trigger)
+
+        // 通知を登録
+        center.add(request) { (error : Error?) in
+            if error != nil {
+                // エラー処理
+            }
+        }
+        
+    }
+    
+    
+}
+
+extension AddFriendViewController {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
+}
+
+//日付の差分を取る
+extension AddFriendViewController {
+    func resetTime(date: Date) -> Date {
+        let calendar: Calendar = Calendar(identifier: .gregorian)
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        components.hour = 0
+        components.minute = 0
+        components.second = 0
+
+        return calendar.date(from: components)!
+    }
+    
+    func calcDateRemainder(firstDate: Date, secondDate: Date? = nil) -> Int{
+
+        var retInterval:Double!
+        let firstDateReset = resetTime(date: firstDate)
+
+        if secondDate == nil {
+            let nowDate: Date = Date()
+            let nowDateReset = resetTime(date: nowDate)
+            retInterval = firstDateReset.timeIntervalSince(nowDateReset)
+        } else {
+            let secondDateReset: Date = resetTime(date: secondDate!)
+            retInterval = firstDate.timeIntervalSince(secondDateReset)
+        }
+
+        let ret = retInterval/86400
+
+        return Int(floor(ret))  // n日
+    }
+}
+
+//image変更について
+extension AddFriendViewController{
     /// viewをタップされた時の処理
     @objc func viewTap(sender: UITapGestureRecognizer){
         print("タップされました")
@@ -61,12 +170,17 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         }
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[.originalImage] 
-
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let pickedImage = info[.originalImage] as! UIImage
+        
+        self.userImageView.image = pickedImage
         
         self.dismiss(animated: false)
     }
+}
+
+//Picker周り
+extension AddFriendViewController{
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return frequencyDataList.count
@@ -116,7 +230,7 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         let spacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(AddFriendViewController.lastDayDone))
         toolbar.setItems([spacelItem, doneItem], animated: true)
-
+        
         // インプットビュー設定(紐づいているUITextfieldへ代入)
         textField.inputView = datePicker
         textField.inputAccessoryView = toolbar
@@ -125,6 +239,7 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
     @objc func frequecyDone() {
         self.frequencyTextField.endEditing(true)
         self.frequencyTextField.text = String(frequencyDataList[frequencyPickerView.selectedRow(inComponent: 0)])
+        frequencyIndex = frequencyPickerView.selectedRow(inComponent: 0)
     }
     
     @objc func lastDayDone() {
@@ -132,20 +247,33 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日"
+        formatter.locale = Locale(identifier: "ja_JP")
         self.lastDayTextField.text = "\(formatter.string(from: datePicker.date))"
+        
+        lastDate = datePicker.date
     }
     
     
-    
     @IBAction func save(){
+        let realm = try! Realm()
         
+        let friend = Friend()
+        friend.userName = userNameTextField.text!
+        friend.frequency = frequencyIndex
+        friend.lastDate = lastDate
+        friend.imagePhotos = userImageView.image!
+        try! realm.write {
+            realm.add(friend)
+        }
+        
+        createNotification(userName: friend.userName,frequecyIndex:friend.frequency  ,lastDate:friend.lastDate)
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-    
-    
 }
+

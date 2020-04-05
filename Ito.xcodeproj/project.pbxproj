@@ -11,6 +11,7 @@
 		8F7DA2077134D3CD4B098335 /* Pods_Ito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 605575AC004F9411B1A333D7 /* Pods_Ito.framework */; };
 		92C454D0A6144D11F6420CB4 /* Pods_ItoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6351A2EDE9D11E69D2CCC20F /* Pods_ItoTests.framework */; };
 		9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC124399CC200E476BE /* CustomTextField.swift */; };
+		9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */; };
 		9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2D2437393200C8EB85 /* AppDelegate.swift */; };
 		9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */; };
 		9D37CD322437393200C8EB85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD312437393200C8EB85 /* ViewController.swift */; };
@@ -50,6 +51,7 @@
 		8BBE2A97DE9495CFBC87A2E6 /* Pods-ItoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItoUITests.release.xcconfig"; path = "Target Support Files/Pods-ItoUITests/Pods-ItoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		91458DF82AF77D96AAD95098 /* Pods_ItoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ItoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D045FC124399CC200E476BE /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCircleImageView.swift; sourceTree = "<group>"; };
 		9D37CD2A2437393200C8EB85 /* Ito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D37CD2D2437393200C8EB85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				9D37CD312437393200C8EB85 /* ViewController.swift */,
 				9DF5A65124377255003CDF35 /* AddFriendViewController.swift */,
 				9D045FC124399CC200E476BE /* CustomTextField.swift */,
+				9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */,
 				9D37CD5D24374C3D00C8EB85 /* Friend.swift */,
 				9D37CD332437393200C8EB85 /* Main.storyboard */,
 				9D37CD362437393300C8EB85 /* Assets.xcassets */,
@@ -409,6 +412,7 @@
 				9D37CD322437393200C8EB85 /* ViewController.swift in Sources */,
 				9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */,
 				9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */,
+				9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */,
 				9DF5A65224377255003CDF35 /* AddFriendViewController.swift in Sources */,
 				9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */,
 				9D37CD5E24374C3D00C8EB85 /* Friend.swift in Sources */,
