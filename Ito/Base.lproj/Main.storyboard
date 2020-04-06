@@ -53,6 +53,10 @@
                                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="uncheck.png" translatesAutoresizingMaskIntoConstraints="NO" id="KOY-Ji-sfq">
+                                                    <rect key="frame" x="333" y="38" width="24" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -205,5 +209,6 @@
     <resources>
         <image name="Ito.png" width="777" height="698"/>
         <image name="button.png" width="48" height="48"/>
+        <image name="uncheck.png" width="501" height="501"/>
     </resources>
 </document>

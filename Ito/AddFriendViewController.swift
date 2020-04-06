@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource ,UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddFriendViewController: UIViewController , UINavigationControllerDelegate {
     
     @IBOutlet var userImage:UIImageView!
     @IBOutlet var userNameTextField:CustomTextField!
@@ -55,8 +55,14 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         
     }
     
+
     
-    func createNotification(userName:String!,frequecyIndex: Int, lastDate:Date){
+    
+}
+
+//通知を用意する
+extension AddFriendViewController{
+    func createNotification(userName:String!,frequencyIndex: Int, lastDate:Date){
         
         switch frequencyIndex {
         case 0:
@@ -99,7 +105,7 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
 
-        let request = UNNotificationRequest(identifier: " Identifier", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "\(userName)", content: content, trigger: trigger)
 
         // 通知を登録
         center.add(request) { (error : Error?) in
@@ -109,10 +115,9 @@ class AddFriendViewController: UIViewController ,UIPickerViewDelegate,UIPickerVi
         }
         
     }
-    
-    
 }
 
+//modalを閉じた時にtableViewのデータを更新するためにpresentationControllerDidDismissを呼ぶ
 extension AddFriendViewController {
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         super.dismiss(animated: flag, completion: completion)
@@ -157,7 +162,7 @@ extension AddFriendViewController {
 }
 
 //image変更について
-extension AddFriendViewController{
+extension AddFriendViewController:UIImagePickerControllerDelegate{
     /// viewをタップされた時の処理
     @objc func viewTap(sender: UITapGestureRecognizer){
         print("タップされました")
@@ -180,7 +185,7 @@ extension AddFriendViewController{
 }
 
 //Picker周り
-extension AddFriendViewController{
+extension AddFriendViewController:UIPickerViewDelegate,UIPickerViewDataSource ,UITextFieldDelegate{
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return frequencyDataList.count
@@ -266,7 +271,7 @@ extension AddFriendViewController{
             realm.add(friend)
         }
         
-        createNotification(userName: friend.userName,frequecyIndex:friend.frequency  ,lastDate:friend.lastDate)
+        createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
         
         self.dismiss(animated: true, completion: nil)
     }

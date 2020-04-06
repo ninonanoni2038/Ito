@@ -12,6 +12,8 @@
 		92C454D0A6144D11F6420CB4 /* Pods_ItoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6351A2EDE9D11E69D2CCC20F /* Pods_ItoTests.framework */; };
 		9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC124399CC200E476BE /* CustomTextField.swift */; };
 		9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */; };
+		9D045FCB243B177000E476BE /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D045FC9243B177000E476BE /* check.png */; };
+		9D045FCC243B177000E476BE /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D045FCA243B177000E476BE /* uncheck.png */; };
 		9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2D2437393200C8EB85 /* AppDelegate.swift */; };
 		9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */; };
 		9D37CD322437393200C8EB85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD312437393200C8EB85 /* ViewController.swift */; };
@@ -52,6 +54,8 @@
 		91458DF82AF77D96AAD95098 /* Pods_ItoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ItoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D045FC124399CC200E476BE /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCircleImageView.swift; sourceTree = "<group>"; };
+		9D045FC9243B177000E476BE /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = img/check.png; sourceTree = SOURCE_ROOT; };
+		9D045FCA243B177000E476BE /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = img/uncheck.png; sourceTree = SOURCE_ROOT; };
 		9D37CD2A2437393200C8EB85 /* Ito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D37CD2D2437393200C8EB85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 			children = (
 				9DF5A64B24376358003CDF35 /* button.png */,
 				9DF5A64D24376C1A003CDF35 /* Ito.png */,
+				9D045FC9243B177000E476BE /* check.png */,
+				9D045FCA243B177000E476BE /* uncheck.png */,
 				9D37CD2D2437393200C8EB85 /* AppDelegate.swift */,
 				9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */,
 				9D37CD312437393200C8EB85 /* ViewController.swift */,
@@ -295,10 +301,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D37CD3A2437393300C8EB85 /* LaunchScreen.storyboard in Resources */,
+				9D045FCB243B177000E476BE /* check.png in Resources */,
 				9DF5A64E24376C1A003CDF35 /* Ito.png in Resources */,
 				9DF5A64C24376358003CDF35 /* button.png in Resources */,
 				9D37CD372437393300C8EB85 /* Assets.xcassets in Resources */,
 				9D37CD352437393200C8EB85 /* Main.storyboard in Resources */,
+				9D045FCC243B177000E476BE /* uncheck.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
