@@ -14,6 +14,7 @@
 		9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */; };
 		9D045FCB243B177000E476BE /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D045FC9243B177000E476BE /* check.png */; };
 		9D045FCC243B177000E476BE /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D045FCA243B177000E476BE /* uncheck.png */; };
+		9D045FCE243B2B3000E476BE /* CustomCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FCD243B2B3000E476BE /* CustomCellButton.swift */; };
 		9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2D2437393200C8EB85 /* AppDelegate.swift */; };
 		9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */; };
 		9D37CD322437393200C8EB85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD312437393200C8EB85 /* ViewController.swift */; };
@@ -56,6 +57,7 @@
 		9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCircleImageView.swift; sourceTree = "<group>"; };
 		9D045FC9243B177000E476BE /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = img/check.png; sourceTree = SOURCE_ROOT; };
 		9D045FCA243B177000E476BE /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = img/uncheck.png; sourceTree = SOURCE_ROOT; };
+		9D045FCD243B2B3000E476BE /* CustomCellButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellButton.swift; sourceTree = "<group>"; };
 		9D37CD2A2437393200C8EB85 /* Ito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D37CD2D2437393200C8EB85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				9DF5A65124377255003CDF35 /* AddFriendViewController.swift */,
 				9D045FC124399CC200E476BE /* CustomTextField.swift */,
 				9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */,
+				9D045FCD243B2B3000E476BE /* CustomCellButton.swift */,
 				9D37CD5D24374C3D00C8EB85 /* Friend.swift */,
 				9D37CD332437393200C8EB85 /* Main.storyboard */,
 				9D37CD362437393300C8EB85 /* Assets.xcassets */,
@@ -422,6 +425,7 @@
 				9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */,
 				9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */,
 				9DF5A65224377255003CDF35 /* AddFriendViewController.swift in Sources */,
+				9D045FCE243B2B3000E476BE /* CustomCellButton.swift in Sources */,
 				9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */,
 				9D37CD5E24374C3D00C8EB85 /* Friend.swift in Sources */,
 			);

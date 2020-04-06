@@ -35,8 +35,14 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
     var datePicker: UIDatePicker = UIDatePicker()
     var lastDate: Date!
     
+    //編集ボタンを押して画面遷移してきた時に
+    var editingFriend:Friend!
+    var originalUserName:String!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         setFrequencyPickerView(pickerView: frequencyPickerView, textField: frequencyTextField)
         setLastDayPickerView(datePicker: datePicker, textField: lastDayTextField)
@@ -52,6 +58,20 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
         
         // viewにタップを登録
         self.userImageBoxView.addGestureRecognizer(tap)
+        
+        //編集モードの時に編集中の情報を表示する
+        if editingFriend != nil{
+            print(editingFriend)
+            originalUserName = editingFriend.userName
+            userNameTextField.text = editingFriend.userName
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy年MM月dd日"
+            formatter.locale = Locale(identifier: "ja_JP")
+            lastDayTextField.text = "\(formatter.string(from: editingFriend.lastDate))"
+            lastDate = editingFriend.lastDate
+            frequencyTextField.text = String(frequencyDataList[editingFriend.frequency])
+            userImageView.image = editingFriend.imagePhotos
+        }
         
     }
     
@@ -259,21 +279,42 @@ extension AddFriendViewController:UIPickerViewDelegate,UIPickerViewDataSource ,U
     }
     
     
+}
+
+
+//値の保存
+extension AddFriendViewController{
+    
     @IBAction func save(){
-        let realm = try! Realm()
-        
-        let friend = Friend()
-        friend.userName = userNameTextField.text!
-        friend.frequency = frequencyIndex
-        friend.lastDate = lastDate
-        friend.imagePhotos = userImageView.image!
-        try! realm.write {
-            realm.add(friend)
+        //編集中と新規追加で挙動をわける
+        if editingFriend != nil{
+            let realm = try! Realm()
+            try! realm.write {
+                let results = realm.objects(Friend.self).filter("userName == '\(originalUserName!)'").first
+                results?.userName = userNameTextField.text!
+                results?.frequency = frequencyIndex
+                results?.lastDate = lastDate
+                results?.imagePhotos = userImageView.image!
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+            
+        }else{
+            let realm = try! Realm()
+            
+            let friend = Friend()
+            friend.userName = userNameTextField.text!
+            friend.frequency = frequencyIndex
+            friend.lastDate = lastDate
+            friend.imagePhotos = userImageView.image!
+            try! realm.write {
+                realm.add(friend)
+            }
+            print(friend)
+            createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
+            
+            self.dismiss(animated: true, completion: nil)
         }
-        
-        createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
-        
-        self.dismiss(animated: true, completion: nil)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -281,4 +322,3 @@ extension AddFriendViewController:UIPickerViewDelegate,UIPickerViewDataSource ,U
         return true
     }
 }
-

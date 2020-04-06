@@ -13,6 +13,7 @@
 //参考にした記事→https://qiita.com/wadaaaan/items/d75b67ef712d49b2399e（日付の差分）
 //参考にした記事→https://qiita.com/tojo/items/3189867605d3b1c5816e（通知）
 //参考にした記事→https://capibara1969.com/1391/（NavBarButton）
+//参考にした記事→https://qiita.com/fromage-blanc/items/d32642c467599a171f2c（addTargetでStringの値渡し）
 import UIKit
 import RealmSwift
 
@@ -52,7 +53,7 @@ class ViewController: UIViewController {
     
 }
 
-//modalを消した時の挙動
+//modal画面遷移について
 extension ViewController: UIAdaptivePresentationControllerDelegate {
     //画面遷移の挙動
     @IBAction func transitionToModalViewController() {
@@ -64,6 +65,8 @@ extension ViewController: UIAdaptivePresentationControllerDelegate {
         table.reloadData()
     }
 }
+
+
 
 //tableViewまわり
 extension ViewController: UITableViewDelegate,UITableViewDataSource{
@@ -85,8 +88,10 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
         let lastDateLabel = cell.viewWithTag(3) as! UILabel
         lastDateLabel.text = convertPassedDays(lastDate: friends[indexPath.row].lastDate)
         
-        
-        
+        let actionButton = cell.viewWithTag(5) as! CustomCellButton
+        actionButton.userNameStringValue = friends[indexPath.row].userName
+        actionButton.addTarget(self, action:  #selector(pushActionButton), for: .touchUpInside)
+//        userName:friends[indexPath.row].userName
         return cell
     }
     
@@ -114,6 +119,49 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
         table.isEditing = editing
     }
 
+}
+
+
+//アクションシートについての挙動
+extension ViewController{
+    @objc private func pushActionButton(_ sender:CustomCellButton){
+        
+        // styleをActionSheetに設定
+        let alertSheet = UIAlertController(title: .none, message: .none, preferredStyle: UIAlertController.Style.actionSheet)
+
+        // 自分の選択肢を生成
+        let action1 = UIAlertAction(title: "編集", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            
+            let realm = try! Realm()
+            let results = realm.objects(Friend.self).filter("userName == '\(sender.userNameStringValue!)'").first
+            
+            let modalViewController = self.storyboard?.instantiateViewController(identifier: "ModalViewController") as! AddFriendViewController
+            modalViewController.presentationController?.delegate = self
+            modalViewController.editingFriend = results
+            self.present(modalViewController, animated: true, completion: nil)
+        })
+        let action2 = UIAlertAction(title: "削除", style: UIAlertAction.Style.destructive, handler: {
+            (action: UIAlertAction!) in
+            print(sender.userNameStringValue!)
+            let realm = try! Realm()
+            let results = realm.objects(Friend.self).filter("userName == '\(sender.userNameStringValue!)'")
+            try! realm.write {
+                realm.delete(results)
+            }
+            self.table.reloadData()
+        })
+        let action3 = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: {
+            (action: UIAlertAction!) in
+        })
+
+        // アクションを追加.
+        alertSheet.addAction(action1)
+        alertSheet.addAction(action2)
+        alertSheet.addAction(action3)
+
+        self.present(alertSheet, animated: true, completion: nil)
+    }
 }
 
 //いつ会ったかを表記する部分
