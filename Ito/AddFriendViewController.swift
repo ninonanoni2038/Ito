@@ -24,6 +24,8 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
     //画像とテキストを包含したView
     @IBOutlet var userImageBoxView:UIView!
     
+    @IBOutlet var errorTextLabel:UILabel!
+    
     //会う頻度を定義するためのPickerなど
     var frequencyPickerView = UIPickerView()
     let frequencyDataList = ["1週間に一度","2週間に一度","3週間に一度","1ヶ月に一度","2ヶ月に一度"]
@@ -35,13 +37,28 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
     var datePicker: UIDatePicker = UIDatePicker()
     var lastDate: Date!
     
-    //編集ボタンを押して画面遷移してきた時に
+    //編集ボタンを押して画面遷移してきた時の値受け渡し用
     var editingFriend:Friend!
     var originalUserName:String!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 通知許可ダイアログを表示
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            print("AddFriendVCの通知許可",granted)
+            if granted == false{
+                DispatchQueue.main.async {
+                    
+                    self.dismiss(animated: true)
+                }
+                
+            }
+        }
+        
         
         
         setFrequencyPickerView(pickerView: frequencyPickerView, textField: frequencyTextField)
@@ -61,7 +78,6 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
         
         //編集モードの時に編集中の情報を表示する
         if editingFriend != nil{
-            print(editingFriend)
             originalUserName = editingFriend.userName
             userNameTextField.text = editingFriend.userName
             let formatter = DateFormatter()
@@ -70,14 +86,24 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
             lastDayTextField.text = "\(formatter.string(from: editingFriend.lastDate))"
             lastDate = editingFriend.lastDate
             frequencyTextField.text = String(frequencyDataList[editingFriend.frequency])
-            userImageView.image = editingFriend.imagePhotos
+            //Realmで取得したUIImageのデータサイズを90％カットする。
+            let resizedImage = editingFriend.imagePhotos?.resized(withPercentage: 0.1)
+            userImageView.image = resizedImage
         }
         
     }
     
+}
 
-    
-    
+//画像サイズを小さくする。
+extension UIImage {
+    //データサイズを変更する
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
+        return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image {
+            _ in draw(in: CGRect(origin: .zero, size: canvas))
+        }
+    }
 }
 
 //通知を用意する
@@ -103,30 +129,28 @@ extension AddFriendViewController{
         let now = Date()
         
         //最後に会った日が今日じゃなかった時の調整
-        print(calcDateRemainder(firstDate: now, secondDate: lastDate))
         nextDay = passedDay - calcDateRemainder(firstDate: now, secondDate: lastDate)
-        print(nextDay)
-        
+        if nextDay <= 0{
+            nextDay = 1
+        }
         // 通知許可ダイアログを表示
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge]) {
-            (granted, error) in
-            // エラー処理
-        }
+
         // 通知内容の設定
         let content = UNMutableNotificationContent()
-
+        
         content.title = NSString.localizedUserNotificationString(forKey: "そろそろ約束の頃合い…？", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: "\(String(userName))とこの間遊んでから\(String(passedDay))日経ったよ", arguments: nil)
         content.sound = UNNotificationSound.default
-
+        
         //let nextDayTimeInterval = nextDay * 86400
         let nextDayTimeInterval = nextDay * 1
+        print("あやしみ",nextDayTimeInterval)
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
-
+        
         let request = UNNotificationRequest(identifier: "\(userName)", content: content, trigger: trigger)
-
+        
         // 通知を登録
         center.add(request) { (error : Error?) in
             if error != nil {
@@ -153,19 +177,19 @@ extension AddFriendViewController {
     func resetTime(date: Date) -> Date {
         let calendar: Calendar = Calendar(identifier: .gregorian)
         var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-
+        
         components.hour = 0
         components.minute = 0
         components.second = 0
-
+        
         return calendar.date(from: components)!
     }
     
     func calcDateRemainder(firstDate: Date, secondDate: Date? = nil) -> Int{
-
+        
         var retInterval:Double!
         let firstDateReset = resetTime(date: firstDate)
-
+        
         if secondDate == nil {
             let nowDate: Date = Date()
             let nowDateReset = resetTime(date: nowDate)
@@ -174,9 +198,9 @@ extension AddFriendViewController {
             let secondDateReset: Date = resetTime(date: secondDate!)
             retInterval = firstDate.timeIntervalSince(secondDateReset)
         }
-
+        
         let ret = retInterval/86400
-
+        
         return Int(floor(ret))  // n日
     }
 }
@@ -198,7 +222,9 @@ extension AddFriendViewController:UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let pickedImage = info[.originalImage] as! UIImage
         
-        self.userImageView.image = pickedImage
+        //pickerで取得したUIImageのサイズを90％カットする。
+        let resizedImage = pickedImage.resized(withPercentage: 0.1)
+        self.userImageView.image = resizedImage
         
         self.dismiss(animated: false)
     }
@@ -286,34 +312,39 @@ extension AddFriendViewController:UIPickerViewDelegate,UIPickerViewDataSource ,U
 extension AddFriendViewController{
     
     @IBAction func save(){
-        //編集中と新規追加で挙動をわける
-        if editingFriend != nil{
-            let realm = try! Realm()
-            try! realm.write {
-                let results = realm.objects(Friend.self).filter("userName == '\(originalUserName!)'").first
-                results?.userName = userNameTextField.text!
-                results?.frequency = frequencyIndex
-                results?.lastDate = lastDate
-                results?.imagePhotos = userImageView.image!
+        if userNameTextField.text != "" && frequencyTextField.text != "" && lastDayTextField.text != "" && userImageView.image != nil{
+            //編集中と新規追加で挙動をわける
+            if editingFriend != nil{
+                let realm = try! Realm()
+                try! realm.write {
+                    let results = realm.objects(Friend.self).filter("userName == '\(originalUserName!)'").first
+                    results?.userName = userNameTextField.text!
+                    results?.frequency = frequencyIndex
+                    results?.lastDate = lastDate
+                    results?.imagePhotos = userImageView.image!
+                }
+                
+                self.dismiss(animated: true, completion: nil)
+                
+            }else{
+                let realm = try! Realm()
+                
+                let friend = Friend()
+                friend.userName = userNameTextField.text!
+                friend.frequency = frequencyIndex
+                friend.lastDate = lastDate
+                friend.imagePhotos = userImageView.image!
+                try! realm.write {
+                    realm.add(friend)
+                }
+                print(friend)
+                createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
+                
+                self.dismiss(animated: true, completion: nil)
             }
             
-            self.dismiss(animated: true, completion: nil)
-            
-        }else{
-            let realm = try! Realm()
-            
-            let friend = Friend()
-            friend.userName = userNameTextField.text!
-            friend.frequency = frequencyIndex
-            friend.lastDate = lastDate
-            friend.imagePhotos = userImageView.image!
-            try! realm.write {
-                realm.add(friend)
-            }
-            print(friend)
-            createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
-            
-            self.dismiss(animated: true, completion: nil)
+        }else {
+            errorTextLabel.text = "未入力、未選択の項目があります。"
         }
     }
     

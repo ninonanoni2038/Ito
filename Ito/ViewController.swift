@@ -6,16 +6,21 @@
 //  Copyright © 2020 二宮啓. All rights reserved.
 //
 
-//参考にした記事→https://www.cloverfield.co.jp/2018/05/08/mac-5/（Realmに画像保存）
-//参考にした記事→https://qiita.com/saku/items/29c7fa20a62cc2f366fa（画像丸く表示）
-//参考にした記事→https://yuu.1000quu.com/use_ui_tap_gesture_recognizer（Viewタップ時のイベント）
-//参考にした記事→https://qiita.com/fummicc1-sub/items/a30e3cbfbf1148b0ec84（modalのDismiss時のイベント）
-//参考にした記事→https://qiita.com/wadaaaan/items/d75b67ef712d49b2399e（日付の差分）
-//参考にした記事→https://qiita.com/tojo/items/3189867605d3b1c5816e（通知）
-//参考にした記事→https://capibara1969.com/1391/（NavBarButton）
-//参考にした記事→https://qiita.com/fromage-blanc/items/d32642c467599a171f2c（addTargetでStringの値渡し）
+//↓↓参考にした記事たち↓↓
+//https://www.cloverfield.co.jp/2018/05/08/mac-5/（Realmに画像保存）
+//https://qiita.com/saku/items/29c7fa20a62cc2f366fa（画像丸く表示）
+//https://yuu.1000quu.com/use_ui_tap_gesture_recognizer（Viewタップ時のイベント）
+//https://qiita.com/fummicc1-sub/items/a30e3cbfbf1148b0ec84（modalのDismiss時のイベント）
+//https://qiita.com/wadaaaan/items/d75b67ef712d49b2399e（日付の差分）
+//https://qiita.com/tojo/items/3189867605d3b1c5816e（通知）
+//https://capibara1969.com/1391/（NavBarButton）
+//https://qiita.com/fromage-blanc/items/d32642c467599a171f2c（addTargetでStringの値渡し）
+//https://qiita.com/Tsh-43879562/items/4883c433bb7297019a1f（画像のリサイズ）
+//https://program-life.com/413（メインスレッドでの画面遷移　紫のエラー）
+//https://terakoya.site/bb/ios-warning-attempt-present/（dismiss後にpresentしようとすると適切に表示されない）
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class ViewController: UIViewController {
     
@@ -27,7 +32,7 @@ class ViewController: UIViewController {
     var metBarButtonItem: UIBarButtonItem!
     
     //会う頻度に合わせた日付を宣言する変数（通知作成時に使用）
-    var passedDay:Int = 0
+    var passedDay:Int = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +47,7 @@ class ViewController: UIViewController {
         friends = realm.objects(Friend.self)
         table.reloadData()
         
-        metBarButtonItem = UIBarButtonItem(title: "会った", style: .done, target: self, action: #selector(metBarButtonTapped))
+        metBarButtonItem = UIBarButtonItem(title: "つながり!", style: .done, target: self, action: #selector(metBarButtonTapped))
         
         self.navigationItem.rightBarButtonItems = [metBarButtonItem]
         
@@ -62,6 +67,16 @@ extension ViewController: UIAdaptivePresentationControllerDelegate {
         present(modalViewController, animated: true, completion: nil)
     }
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        // 通知許可ダイアログを表示
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            print("VCの通知許可",granted)
+            if granted == false{
+                self.presentAlert()
+            }
+        }
+                
         table.reloadData()
     }
 }
@@ -226,7 +241,7 @@ extension ViewController{
         }else if passedDays <= 75{
             passedDaysText = "2ヶ月前"
         }else if passedDays <= 105{
-            passedDaysText = "2ヶ月前"
+            passedDaysText = "3ヶ月前"
         }else{
             passedDaysText = "ずっと前"
         }
@@ -284,7 +299,7 @@ extension ViewController{
         case 4:
             passedDay = 60
         default:
-            passedDay = 0
+            passedDay = 1
         }
         
         // 通知許可ダイアログを表示
@@ -315,4 +330,24 @@ extension ViewController{
         }
         
     }
+}
+
+extension ViewController{
+    func presentAlert(){
+        print("hoge")
+        let alert: UIAlertController = UIAlertController(title: "通知設定の変更", message: "設定から通知設定を許可してください", preferredStyle:  UIAlertController.Style.alert)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        
+        alert.addAction(defaultAction)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
 }
