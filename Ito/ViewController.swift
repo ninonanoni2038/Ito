@@ -337,10 +337,16 @@ extension ViewController{
         print("hoge")
         let alert: UIAlertController = UIAlertController(title: "通知設定の変更", message: "設定から通知設定を許可してください", preferredStyle:  UIAlertController.Style.alert)
         
-        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+        let defaultAction: UIAlertAction = UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler:{
             // ボタンが押された時の処理を書く（クロージャ実装）
             (action: UIAlertAction!) -> Void in
-            print("OK")
+            if let url = URL(string:"App-Prefs:root=NOTIFICATIONS_ID") {
+                  if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                  } else {
+                        UIApplication.shared.openURL(url)
+                  }
+            }
         })
         
         alert.addAction(defaultAction)
