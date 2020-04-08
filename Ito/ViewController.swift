@@ -18,6 +18,7 @@
 //https://qiita.com/Tsh-43879562/items/4883c433bb7297019a1f（画像のリサイズ）
 //https://program-life.com/413（メインスレッドでの画面遷移　紫のエラー）
 //https://terakoya.site/bb/ios-warning-attempt-present/（dismiss後にpresentしようとすると適切に表示されない）
+//http://www.finets.net/2018/08/04/your-app-uses-the-prefsroot-non-public-url-scheme/
 import UIKit
 import RealmSwift
 import UserNotifications
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
     
     //会う頻度に合わせた日付を宣言する変数（通知作成時に使用）
     var passedDay:Int = 1
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,7 +77,7 @@ extension ViewController: UIAdaptivePresentationControllerDelegate {
                 self.presentAlert()
             }
         }
-                
+        
         table.reloadData()
     }
 }
@@ -106,7 +107,7 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
         let actionButton = cell.viewWithTag(5) as! CustomCellButton
         actionButton.userNameStringValue = friends[indexPath.row].userName
         actionButton.addTarget(self, action:  #selector(pushActionButton), for: .touchUpInside)
-//        userName:friends[indexPath.row].userName
+        //        userName:friends[indexPath.row].userName
         return cell
     }
     
@@ -133,7 +134,7 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
         super.setEditing(editing, animated: animated)
         table.isEditing = editing
     }
-
+    
 }
 
 
@@ -143,7 +144,7 @@ extension ViewController{
         
         // styleをActionSheetに設定
         let alertSheet = UIAlertController(title: .none, message: .none, preferredStyle: UIAlertController.Style.actionSheet)
-
+        
         // 自分の選択肢を生成
         let action1 = UIAlertAction(title: "編集", style: UIAlertAction.Style.default, handler: {
             (action: UIAlertAction!) in
@@ -169,12 +170,12 @@ extension ViewController{
         let action3 = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: {
             (action: UIAlertAction!) in
         })
-
+        
         // アクションを追加.
         alertSheet.addAction(action1)
         alertSheet.addAction(action2)
         alertSheet.addAction(action3)
-
+        
         self.present(alertSheet, animated: true, completion: nil)
     }
 }
@@ -185,19 +186,19 @@ extension ViewController{
     func resetTime(date: Date) -> Date {
         let calendar: Calendar = Calendar(identifier: .gregorian)
         var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-
+        
         components.hour = 0
         components.minute = 0
         components.second = 0
-
+        
         return calendar.date(from: components)!
     }
     
     func calcDateRemainder(firstDate: Date, secondDate: Date? = nil) -> Int{
-
+        
         var retInterval:Double!
         let firstDateReset = resetTime(date: firstDate)
-
+        
         if secondDate == nil {
             let nowDate: Date = Date()
             let nowDateReset = resetTime(date: nowDate)
@@ -206,9 +207,9 @@ extension ViewController{
             let secondDateReset: Date = resetTime(date: secondDate!)
             retInterval = firstDate.timeIntervalSince(secondDateReset)
         }
-
+        
         let ret = retInterval/86400
-
+        
         return Int(floor(ret))  // n日
     }
     
@@ -260,14 +261,14 @@ extension ViewController{
                 print(indexPathForSelectedRow)
                 
                 let selectedIndex = indexPathForSelectedRow[1]
-
+                
                 try! realm.write {
                     friends[selectedIndex].lastDate = Date()
                 }
                 createNotification(userName: friends[selectedIndex].userName, frequencyIndex: friends[selectedIndex].frequency, lastDate: friends[selectedIndex].lastDate)
-
+                
                 table.reloadData()
-                                
+                
                 table.deselectRow(at: indexPathForSelectedRow, animated: true)
                 let cell = table.cellForRow(at: indexPathForSelectedRow)
                 let checkImageView = cell!.viewWithTag(4) as! UIImageView
@@ -286,7 +287,7 @@ extension ViewController{
 extension ViewController{
     func createNotification(userName:String!,frequencyIndex: Int, lastDate:Date){
         
-
+        
         switch frequencyIndex {
         case 0:
             passedDay = 7
@@ -310,18 +311,18 @@ extension ViewController{
         }
         // 通知内容の設定
         let content = UNMutableNotificationContent()
-
+        
         content.title = NSString.localizedUserNotificationString(forKey: "そろそろ約束の頃合い…？", arguments: nil)
         content.body = NSString.localizedUserNotificationString(forKey: "\(String(userName))とこの間遊んでから\(String(passedDay))日経ったよ", arguments: nil)
         content.sound = UNNotificationSound.default
-
-        //let nextDayTimeInterval = passedDay * 86400
-        let nextDayTimeInterval = passedDay * 1
+        
+        let nextDayTimeInterval = passedDay * 86400
+//        let nextDayTimeInterval = passedDay * 1
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
-
+        
         let request = UNNotificationRequest(identifier: "\(userName)", content: content, trigger: trigger)
-
+        
         // 通知を登録
         center.add(request) { (error : Error?) in
             if error != nil {
@@ -337,19 +338,23 @@ extension ViewController{
         print("hoge")
         let alert: UIAlertController = UIAlertController(title: "通知設定の変更", message: "設定から通知設定を許可してください", preferredStyle:  UIAlertController.Style.alert)
         
-        let defaultAction: UIAlertAction = UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler:{
+        let settingsAction: UIAlertAction = UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler:{
             // ボタンが押された時の処理を書く（クロージャ実装）
             (action: UIAlertAction!) -> Void in
-            if let url = URL(string:"App-Prefs:root=NOTIFICATIONS_ID") {
-                  if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                  } else {
-                        UIApplication.shared.openURL(url)
-                  }
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                
+                UIApplication.shared.open(url)
+                
             }
         })
         
-        alert.addAction(defaultAction)
+        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) -> Void in
+        })
+        
+        alert.addAction(okAction)
+        alert.addAction(settingsAction)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.present(alert, animated: true, completion: nil)
         }

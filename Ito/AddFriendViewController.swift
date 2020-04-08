@@ -53,7 +53,7 @@ class AddFriendViewController: UIViewController , UINavigationControllerDelegate
             if granted == false{
                 DispatchQueue.main.async {
                     
-                    self.dismiss(animated: true)
+//                    self.dismiss(animated: true)
                 }
                 
             }
@@ -143,8 +143,8 @@ extension AddFriendViewController{
         content.body = NSString.localizedUserNotificationString(forKey: "\(String(userName))とこの間遊んでから\(String(passedDay))日経ったよ", arguments: nil)
         content.sound = UNNotificationSound.default
         
-        //let nextDayTimeInterval = nextDay * 86400
-        let nextDayTimeInterval = nextDay * 1
+        let nextDayTimeInterval = nextDay * 86400
+//        let nextDayTimeInterval = nextDay * 1
         print("あやしみ",nextDayTimeInterval)
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
