@@ -18,12 +18,13 @@
 //https://qiita.com/Tsh-43879562/items/4883c433bb7297019a1f（画像のリサイズ）
 //https://program-life.com/413（メインスレッドでの画面遷移　紫のエラー）
 //https://terakoya.site/bb/ios-warning-attempt-present/（dismiss後にpresentしようとすると適切に表示されない）
-//http://www.finets.net/2018/08/04/your-app-uses-the-prefsroot-non-public-url-scheme/
+//http://www.finets.net/2018/08/04/your-app-uses-the-prefsroot-non-public-url-scheme/（Your app uses the “prefs:root=” non-public URL schemeリジェクトについて）
+//https://qiita.com/shtnkgm/items/c985ab4b314b8572eccd（final classについて）
 import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     var friends:Results<Friend>!
     

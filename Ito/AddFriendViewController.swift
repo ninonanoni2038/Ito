@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class AddFriendViewController: UIViewController , UINavigationControllerDelegate {
+final class AddFriendViewController: UIViewController , UINavigationControllerDelegate {
     
     @IBOutlet var userImage:UIImageView!
     @IBOutlet var userNameTextField:CustomTextField!
