@@ -31,7 +31,6 @@ class Friend:Object{
                 self.imagePhtData = value.jpegData(compressionQuality: quarity)! as NSData
                 if let data1 = self.imagePhtData {
                     jpegSize = data1.length
-                    print("bf: imagePhtData.size = \(jpegSize)")
                     
                     while (quarity > 0 && jpegSize > maxImgSz  ) {
                         quarity = quarity - 0.15
@@ -39,7 +38,6 @@ class Friend:Object{
                         jpegSize = self.imagePhtData!.length
                     }
                 }
-                print("af: imagePhtData.size = \(jpegSize)")
             }
         }
         get{
@@ -55,51 +53,57 @@ class Friend:Object{
     }
     @objc dynamic private var _imagePhotos: UIImage? = nil
     @objc dynamic private var imagePhtData: NSData? = nil
-//    @objc dynamic private var id = 0
+    @objc dynamic private var id = 0
     
     //保存しないメンバ
     override static func ignoredProperties() -> [String] {
         return ["imagePhotos", "_imagePhotos"]
     }
     
-//    override static func primaryKey() -> String? {
-//        return "id"
-//    }
-//
-//    static func create() -> Friend {
-//        let user = Friend()
-//        user.id = lastId()
-//        return user
-//    }
-//
-//    static func loadAll() -> [Friend] {
-//        let users = realm.objects(Friend.self).sorted(byKeyPath: "id", ascending: false)
-//        var ret: [Friend] = []
-//        for user in users {
-//            ret.append(user)
-//        }
-//        return ret
-//    }
-//
-//    static func lastId() -> Int {
-//        if let user = realm.objects(Friend.self).last {
-//            return user.id + 1
-//        } else {
-//            return 1
-//        }
-//    }
-//
-//    // addのみ
-//    func save() {
-//        try! Friend.realm.write {
-//            Friend.realm.add(self)
-//        }
-//    }
-//
-//    func update(method: (() -> Void)) {
-//        try! Friend.realm.write {
-//            method()
-//        }
-//    }
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+
+    static func create() -> Friend {
+        let user = Friend()
+        user.id = lastId()
+        return user
+    }
+
+    static func loadAll() -> [Friend] {
+        let users = realm.objects(Friend.self).sorted(byKeyPath: "id", ascending: false)
+        var ret: [Friend] = []
+        for user in users {
+            ret.append(user)
+        }
+        return ret
+    }
+
+    static func lastId() -> Int {
+        if let user = realm.objects(Friend.self).last {
+            return user.id + 1
+        } else {
+            return 1
+        }
+    }
+
+    // addのみ
+    func save() {
+        try! Friend.realm.write {
+            Friend.realm.add(self)
+        }
+    }
+
+    func update(method: (() -> Void)) {
+        try! Friend.realm.write {
+            method()
+        }
+    }
+    
+    func delete(){
+        try! Friend.realm.write {
+            Friend.realm.delete(self)
+        }
+    }
     
 }

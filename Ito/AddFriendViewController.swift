@@ -49,7 +49,6 @@ final class AddFriendViewController: UIViewController , UINavigationControllerDe
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
-            print("AddFriendVCの通知許可",granted)
             if granted == false{
                 DispatchQueue.main.async {
                     
@@ -145,7 +144,6 @@ extension AddFriendViewController{
         
         let nextDayTimeInterval = nextDay * 86400
 //        let nextDayTimeInterval = nextDay * 1
-        print("あやしみ",nextDayTimeInterval)
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(nextDayTimeInterval), repeats: false)
         
@@ -209,7 +207,6 @@ extension AddFriendViewController {
 extension AddFriendViewController:UIImagePickerControllerDelegate{
     /// viewをタップされた時の処理
     @objc func viewTap(sender: UITapGestureRecognizer){
-        print("タップされました")
         
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             let picker = UIImagePickerController()
@@ -315,29 +312,38 @@ extension AddFriendViewController{
         if userNameTextField.text != "" && frequencyTextField.text != "" && lastDayTextField.text != "" && userImageView.image != nil{
             //編集中と新規追加で挙動をわける
             if editingFriend != nil{
-                let realm = try! Realm()
-                try! realm.write {
-                    let results = realm.objects(Friend.self).filter("userName == '\(originalUserName!)'").first
-                    results?.userName = userNameTextField.text!
-                    results?.frequency = frequencyIndex
-                    results?.lastDate = lastDate
-                    results?.imagePhotos = userImageView.image!
+                let friends = Friend.loadAll()
+                for friend in friends{
+                    try! Friend.realm.write{
+                        if friend.userName == originalUserName{
+                            friend.userName = userNameTextField.text!
+                            friend.frequency = frequencyIndex
+                            friend.lastDate = lastDate
+                            friend.imagePhotos = userImageView.image!
+                        }
+                    }
                 }
+                
+//                let realm = try! Realm()
+//                try! realm.write {
+//                    let results = realm.objects(Friend.self).filter("userName == '\(originalUserName!)'").first
+//                    results?.userName = userNameTextField.text!
+//                    results?.frequency = frequencyIndex
+//                    results?.lastDate = lastDate
+//                    results?.imagePhotos = userImageView.image!
+//                }
                 
                 self.dismiss(animated: true, completion: nil)
                 
             }else{
-                let realm = try! Realm()
+//                let realm = try! Realm()
                 
-                let friend = Friend()
+                let friend = Friend.create()
                 friend.userName = userNameTextField.text!
                 friend.frequency = frequencyIndex
                 friend.lastDate = lastDate
                 friend.imagePhotos = userImageView.image!
-                try! realm.write {
-                    realm.add(friend)
-                }
-                print(friend)
+                friend.save()
                 createNotification(userName: friend.userName,frequencyIndex:friend.frequency  ,lastDate:friend.lastDate)
                 
                 self.dismiss(animated: true, completion: nil)

@@ -26,7 +26,7 @@ import UserNotifications
 
 final class ViewController: UIViewController {
     
-    var friends:Results<Friend>!
+    var friends:[Friend]!
     
     @IBOutlet var table:UITableView!
     
@@ -45,9 +45,7 @@ final class ViewController: UIViewController {
         // 複数選択を有効にする
         table.allowsMultipleSelection = true
         
-        let realm = try! Realm()
-        friends = realm.objects(Friend.self)
-        table.reloadData()
+        friends  = Friend.loadAll()
         
         metBarButtonItem = UIBarButtonItem(title: "つながり!", style: .done, target: self, action: #selector(metBarButtonTapped))
         
@@ -73,12 +71,11 @@ extension ViewController: UIAdaptivePresentationControllerDelegate {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
-            print("VCの通知許可",granted)
             if granted == false{
                 self.presentAlert()
             }
         }
-        
+        self.friends = Friend.loadAll()
         table.reloadData()
     }
 }
@@ -118,14 +115,12 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
     
     //cell選択時の挙動
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("select - \(indexPath)")
         let cell = tableView.cellForRow(at: indexPath)
         let checkImageView = cell!.viewWithTag(4) as! UIImageView
         checkImageView.image = UIImage(named: "check")
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("deselect - \(indexPath)")
         let cell = tableView.cellForRow(at: indexPath)
         let checkImageView = cell!.viewWithTag(4) as! UIImageView
         checkImageView.image = UIImage(named: "uncheck")
@@ -160,12 +155,12 @@ extension ViewController{
         })
         let action2 = UIAlertAction(title: "削除", style: UIAlertAction.Style.destructive, handler: {
             (action: UIAlertAction!) in
-            print(sender.userNameStringValue!)
-            let realm = try! Realm()
-            let results = realm.objects(Friend.self).filter("userName == '\(sender.userNameStringValue!)'")
-            try! realm.write {
-                realm.delete(results)
+            for friend in self.friends{
+                if friend.userName == sender.userNameStringValue!{
+                    friend.delete()
+                }
             }
+            self.friends  = Friend.loadAll()
             self.table.reloadData()
         })
         let action3 = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: {
@@ -259,7 +254,6 @@ extension ViewController{
         let realm: Realm = try! Realm()
         if table.indexPathsForSelectedRows != nil {
             for indexPathForSelectedRow in table.indexPathsForSelectedRows!{
-                print(indexPathForSelectedRow)
                 
                 let selectedIndex = indexPathForSelectedRow[1]
                 
@@ -274,11 +268,8 @@ extension ViewController{
                 let cell = table.cellForRow(at: indexPathForSelectedRow)
                 let checkImageView = cell!.viewWithTag(4) as! UIImageView
                 checkImageView.image = UIImage(named: "uncheck")
-                print("deselectした")
             }
         }
-        
-        print("met")
         
         
     }
@@ -336,7 +327,6 @@ extension ViewController{
 
 extension ViewController{
     func presentAlert(){
-        print("hoge")
         let alert: UIAlertController = UIAlertController(title: "通知設定の変更", message: "設定から通知設定を許可してください", preferredStyle:  UIAlertController.Style.alert)
         
         let settingsAction: UIAlertAction = UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler:{
