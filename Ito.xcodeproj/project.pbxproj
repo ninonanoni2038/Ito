@@ -10,19 +10,21 @@
 		5F799EADF4FF7C2C12E144AA /* Pods_ItoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91458DF82AF77D96AAD95098 /* Pods_ItoUITests.framework */; };
 		8F7DA2077134D3CD4B098335 /* Pods_Ito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 605575AC004F9411B1A333D7 /* Pods_Ito.framework */; };
 		92C454D0A6144D11F6420CB4 /* Pods_ItoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6351A2EDE9D11E69D2CCC20F /* Pods_ItoTests.framework */; };
-		9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC124399CC200E476BE /* CustomTextField.swift */; };
-		9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */; };
-		9D045FCE243B2B3000E476BE /* CustomCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D045FCD243B2B3000E476BE /* CustomCellButton.swift */; };
 		9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2D2437393200C8EB85 /* AppDelegate.swift */; };
 		9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */; };
-		9D37CD322437393200C8EB85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD312437393200C8EB85 /* ViewController.swift */; };
 		9D37CD352437393200C8EB85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D37CD332437393200C8EB85 /* Main.storyboard */; };
 		9D37CD372437393300C8EB85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D37CD362437393300C8EB85 /* Assets.xcassets */; };
 		9D37CD3A2437393300C8EB85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D37CD382437393300C8EB85 /* LaunchScreen.storyboard */; };
 		9D37CD452437393400C8EB85 /* ItoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD442437393400C8EB85 /* ItoTests.swift */; };
 		9D37CD502437393400C8EB85 /* ItoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD4F2437393400C8EB85 /* ItoUITests.swift */; };
-		9D37CD5E24374C3D00C8EB85 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37CD5D24374C3D00C8EB85 /* Friend.swift */; };
-		9DF5A65224377255003CDF35 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF5A65124377255003CDF35 /* AddFriendViewController.swift */; };
+		9DD546F5243F3681006DB0C7 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546F3243F3681006DB0C7 /* AddFriendViewController.swift */; };
+		9DD546F6243F3681006DB0C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546F4243F3681006DB0C7 /* ViewController.swift */; };
+		9DD546FD243F3697006DB0C7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546F7243F3697006DB0C7 /* Friend.swift */; };
+		9DD546FE243F3697006DB0C7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546F8243F3697006DB0C7 /* CustomTextField.swift */; };
+		9DD546FF243F3697006DB0C7 /* EnhancedCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546F9243F3697006DB0C7 /* EnhancedCircleImageView.swift */; };
+		9DD54700243F3697006DB0C7 /* CustomCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546FA243F3697006DB0C7 /* CustomCellButton.swift */; };
+		9DD54701243F3697006DB0C7 /* PickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546FB243F3697006DB0C7 /* PickerTextField.swift */; };
+		9DD54702243F3697006DB0C7 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD546FC243F3697006DB0C7 /* CustomTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,13 +51,9 @@
 		6351A2EDE9D11E69D2CCC20F /* Pods_ItoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ItoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BBE2A97DE9495CFBC87A2E6 /* Pods-ItoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItoUITests.release.xcconfig"; path = "Target Support Files/Pods-ItoUITests/Pods-ItoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		91458DF82AF77D96AAD95098 /* Pods_ItoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ItoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D045FC124399CC200E476BE /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = ../CustomTextField.swift; sourceTree = "<group>"; };
-		9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnhancedCircleImageView.swift; path = ../EnhancedCircleImageView.swift; sourceTree = "<group>"; };
-		9D045FCD243B2B3000E476BE /* CustomCellButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCellButton.swift; path = ../CustomCellButton.swift; sourceTree = "<group>"; };
 		9D37CD2A2437393200C8EB85 /* Ito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D37CD2D2437393200C8EB85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D37CD2F2437393200C8EB85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9D37CD312437393200C8EB85 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Ito/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		9D37CD342437393200C8EB85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D37CD362437393300C8EB85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D37CD392437393300C8EB85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -66,8 +64,14 @@
 		9D37CD4B2437393400C8EB85 /* ItoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ItoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D37CD4F2437393400C8EB85 /* ItoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItoUITests.swift; sourceTree = "<group>"; };
 		9D37CD512437393400C8EB85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9D37CD5D24374C3D00C8EB85 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Friend.swift; path = ../Friend.swift; sourceTree = "<group>"; };
-		9DF5A65124377255003CDF35 /* AddFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddFriendViewController.swift; path = ../AddFriendViewController.swift; sourceTree = "<group>"; };
+		9DD546F3243F3681006DB0C7 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
+		9DD546F4243F3681006DB0C7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9DD546F7243F3697006DB0C7 /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		9DD546F8243F3697006DB0C7 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		9DD546F9243F3697006DB0C7 /* EnhancedCircleImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhancedCircleImageView.swift; sourceTree = "<group>"; };
+		9DD546FA243F3697006DB0C7 /* CustomCellButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCellButton.swift; sourceTree = "<group>"; };
+		9DD546FB243F3697006DB0C7 /* PickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTextField.swift; sourceTree = "<group>"; };
+		9DD546FC243F3697006DB0C7 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		C30F2406DF4326E0059C75AD /* Pods-ItoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItoUITests.debug.xcconfig"; path = "Target Support Files/Pods-ItoUITests/Pods-ItoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3753F64D6437878F78F74FA /* Pods-ItoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItoTests.release.xcconfig"; path = "Target Support Files/Pods-ItoTests/Pods-ItoTests.release.xcconfig"; sourceTree = "<group>"; };
 		EB921B4C9395B653E5CB626E /* Pods-Ito.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ito.release.xcconfig"; path = "Target Support Files/Pods-Ito/Pods-Ito.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,10 +186,12 @@
 		9DD546F1243EE5D2006DB0C7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9D045FC124399CC200E476BE /* CustomTextField.swift */,
-				9D045FC32439A35B00E476BE /* EnhancedCircleImageView.swift */,
-				9D045FCD243B2B3000E476BE /* CustomCellButton.swift */,
-				9D37CD5D24374C3D00C8EB85 /* Friend.swift */,
+				9DD546FA243F3697006DB0C7 /* CustomCellButton.swift */,
+				9DD546FC243F3697006DB0C7 /* CustomTabBarController.swift */,
+				9DD546F8243F3697006DB0C7 /* CustomTextField.swift */,
+				9DD546F9243F3697006DB0C7 /* EnhancedCircleImageView.swift */,
+				9DD546F7243F3697006DB0C7 /* Friend.swift */,
+				9DD546FB243F3697006DB0C7 /* PickerTextField.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,8 +199,8 @@
 		9DD546F2243EE5DA006DB0C7 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9D37CD312437393200C8EB85 /* ViewController.swift */,
-				9DF5A65124377255003CDF35 /* AddFriendViewController.swift */,
+				9DD546F3243F3681006DB0C7 /* AddFriendViewController.swift */,
+				9DD546F4243F3681006DB0C7 /* ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -420,14 +426,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D37CD322437393200C8EB85 /* ViewController.swift in Sources */,
+				9DD54700243F3697006DB0C7 /* CustomCellButton.swift in Sources */,
+				9DD546F6243F3681006DB0C7 /* ViewController.swift in Sources */,
+				9DD54702243F3697006DB0C7 /* CustomTabBarController.swift in Sources */,
 				9D37CD2E2437393200C8EB85 /* AppDelegate.swift in Sources */,
-				9D045FC224399CC200E476BE /* CustomTextField.swift in Sources */,
-				9D045FC42439A35B00E476BE /* EnhancedCircleImageView.swift in Sources */,
-				9DF5A65224377255003CDF35 /* AddFriendViewController.swift in Sources */,
-				9D045FCE243B2B3000E476BE /* CustomCellButton.swift in Sources */,
+				9DD546FE243F3697006DB0C7 /* CustomTextField.swift in Sources */,
+				9DD546FF243F3697006DB0C7 /* EnhancedCircleImageView.swift in Sources */,
+				9DD546FD243F3697006DB0C7 /* Friend.swift in Sources */,
+				9DD546F5243F3681006DB0C7 /* AddFriendViewController.swift in Sources */,
 				9D37CD302437393200C8EB85 /* SceneDelegate.swift in Sources */,
-				9D37CD5E24374C3D00C8EB85 /* Friend.swift in Sources */,
+				9DD54701243F3697006DB0C7 /* PickerTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

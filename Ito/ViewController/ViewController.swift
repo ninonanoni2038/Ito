@@ -35,6 +35,9 @@ final class ViewController: UIViewController {
         
         metBarButtonItem = UIBarButtonItem(title: "つながり!", style: .done, target: self, action: #selector(metBarButtonTapped))
         
+        metBarButtonItem.isEnabled = false
+        metBarButtonItem.title = ""
+        
         self.navigationItem.rightBarButtonItems = [metBarButtonItem]
         
         
@@ -104,6 +107,8 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.cellForRow(at: indexPath)
         let checkImageView = cell!.viewWithTag(4) as! UIImageView
         checkImageView.image = UIImage(named: "check")
+        metBarButtonItem.isEnabled = true
+        metBarButtonItem.title = "会った！"
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -257,6 +262,8 @@ extension ViewController{
             }
         }
         
+        metBarButtonItem.isEnabled = false
+        metBarButtonItem.title = ""
         
     }
 }
