@@ -26,6 +26,7 @@ final class AddFriendViewController: UIViewController , UINavigationControllerDe
     
     @IBOutlet var errorTextLabel:UILabel!
     
+    
     //会う頻度を定義するためのPickerなど
     var frequencyPickerView = UIPickerView()
     let frequencyDataList = ["1週間に一度","2週間に一度","3週間に一度","1ヶ月に一度","2ヶ月に一度"]
